@@ -102,3 +102,9 @@ venv.bak/
 
 # mypy
 .mypy_cache/
+
+# Ignore all data files
+*.jsons
+*.json
+*.csv
+.DS_Store
