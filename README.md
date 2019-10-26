@@ -1,6 +1,6 @@
 <div align="center">
   <h1>Analysis of  the New York City Property Prices Dataset</h1>
-  <img src="areal.png" width="100%" alt="result.png">
+  <img src="areal.png" width="50%" alt="result.png">
 </div>
 
 ## Goal
