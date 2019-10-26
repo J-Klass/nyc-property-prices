@@ -11,6 +11,8 @@ from sklearn.metrics import (
     f1_score,
 )
 from sklearn.model_selection import GridSearchCV, cross_val_score, train_test_split
+from yellowbrick.regressor import PredictionError
+from yellowbrick.regressor import ResidualsPlot
 import matplotlib.pyplot as plt
 import numpy as np
 import pandas as pd
@@ -53,7 +55,7 @@ def lasso_regression(X_train, y_train, X_test, y_test, plot):
     Perfomring a lasso regression with built in CV and plotting the feature importance
     """
     # Fit the ridge regression
-    reg = LassoCV()
+    reg = LassoCV()    
     reg.fit(X_train, y_train)
     print("Best alpha using built-in LassoCV: %f" % reg.alpha_)
     print("Best score using built-in LassoCV: %f" % reg.score(X_train, y_train))
@@ -72,6 +74,18 @@ def lasso_regression(X_train, y_train, X_test, y_test, plot):
         plt.rcParams["figure.figsize"] = (8.0, 10.0)
         imp_coef.plot(kind="barh")
         plt.title("Feature importance using Lasso Model")
+        plt.show()
+
+        # Plotting the prediction error
+        visualizer = PredictionError(reg, size=(1080, 720))
+        visualizer.fit(X_train, y_train)  # Fit the training data to the visualizer
+        visualizer.score(X_test, y_test)  # Evaluate the model on the test data
+        visualizer.show()                 # Finalize and render the figure
+        # Visualizing the regression
+        visualizer = ResidualsPlot(reg, size=(1080, 720))
+        visualizer.fit(X_train, y_train)  # Fit the training data to the visualizer
+        visualizer.score(X_test, y_test)  # Evaluate the model on the test data
+        visualizer.show()                 # Finalize and render the figure
     # Using the test data to calculate a score
     y_pred = reg.predict(X_test)
     # Return metrics
@@ -108,6 +122,12 @@ def ridge_regression(X_train, y_train, X_test, y_test, plot):
         plt.rcParams["figure.figsize"] = (8.0, 10.0)
         imp_coef.plot(kind="barh")
         plt.title("Feature importance using Ridge Model")
+        plt.show()
+        # Visualizing the regression
+        visualizer = ResidualsPlot(reg, size=(1080, 720))
+        visualizer.fit(X_train, y_train)  # Fit the training data to the visualizer
+        visualizer.score(X_test, y_test)  # Evaluate the model on the test data
+        visualizer.show()                 # Finalize and render the figure
     # Using the test data to calculate a score
     y_pred = reg.predict(X_test)
     # Return metrics
